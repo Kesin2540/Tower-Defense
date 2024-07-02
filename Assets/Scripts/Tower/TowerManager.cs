@@ -12,10 +12,6 @@ public class TowerManager : Singleton<TowerManager>
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
-        {
-            Debug.LogError("SpriteRenderer component missing from TowerManager GameObject.");
-        }
     }
 
     // Update is called once per frame
@@ -37,6 +33,11 @@ public class TowerManager : Singleton<TowerManager>
         {
             followMouse();
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            DisableDragSprite();
+            TowerbtnPressed = null;
+        }
     }
 
     public void placeTower(RaycastHit2D hit)
@@ -47,6 +48,7 @@ public class TowerManager : Singleton<TowerManager>
             newTower.transform.position = hit.transform.position;
             DisableDragSprite();
         }
+        GameManager.Instance.SubMoney(TowerbtnPressed.TowerAmt);
     }
 
     public void selectedTower(Towerbtn towerSelected)

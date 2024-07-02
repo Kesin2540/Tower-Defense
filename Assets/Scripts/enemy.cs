@@ -62,7 +62,10 @@ public class Enemy : MonoBehaviour
         }
         else if(other.tag == "Finish")
         {
+            GameManager.Instance.RoundsEscaped += 1;
+            GameManager.Instance.TotalEscaped += 1;
             GameManager.Instance.UnregisterEnemy(this);
+            GameManager.Instance.IsWaveOver();
         }
         else if (other.tag == "Projectiles")
         {
@@ -94,5 +97,8 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
         enemyCollider.enabled = false;
+        GameManager.Instance.TotalKilled += 1;
+        GameManager.Instance.AddMoney(rewardAmt);
+        GameManager.Instance.IsWaveOver();
     }
 }

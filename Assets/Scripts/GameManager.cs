@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -9,7 +8,8 @@ public enum gameState
 {
     next, play, gameOver, win
 }
-public class GameManager : Singleton<GameManager> 
+
+public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private int totalWaves = 10;
     [SerializeField] private TextMeshProUGUI waveNumLbl;
@@ -17,7 +17,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private TextMeshProUGUI escapedNumLbl;
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject[] enemies;
-    [SerializeField] private int maxEnemiesOnScreen;
     [SerializeField] private int totalEnemies;
     [SerializeField] private int enemiesPerSpawn;
     [SerializeField] private TextMeshProUGUI nextWaveBtnLbl;
@@ -34,6 +33,42 @@ public class GameManager : Singleton<GameManager>
 
     const float spawnDelay = 0.5f;
 
+    public int TotalEscaped
+    {
+        get
+        {
+            return escapedNum;
+        }
+        set
+        {
+            escapedNum = value;
+        }
+    }
+
+    public int RoundsEscaped
+    {
+        get
+        {
+            return roundsEscaped;
+        }
+        set
+        {
+            roundsEscaped = value;
+        }
+    }
+
+    public int TotalKilled
+    {
+        get
+        {
+            return totalKilled;
+        }
+        set
+        {
+            totalKilled = value;
+        }
+    }
+
     public int TotalMoney
     {
         get
@@ -46,18 +81,22 @@ public class GameManager : Singleton<GameManager>
             moneyLbl.text = money.ToString();
         }
     }
+
     public List<Enemy> EnemyList = new List<Enemy>();
 
     void Start()
     {
+        // Ensure moneyLbl is assigned if not done in the editor
+        if (moneyLbl == null)
+        {
+            moneyLbl = GameObject.FindGameObjectWithTag("moneylbl").GetComponent<TextMeshProUGUI>();
+            escapedNumLbl = GameObject.Find("Escaped_lbl").GetComponent<TextMeshProUGUI>();
+        }
+
         nextWaveBtn.gameObject.SetActive(false);
         showMenu();
     }
 
-    private void Update()
-    {
-        handleEscape();
-    }
 
     IEnumerator spawn()
     {
@@ -65,12 +104,11 @@ public class GameManager : Singleton<GameManager>
         {
             for (int i = 0; i < enemiesPerSpawn; i++)
             {
-                if (EnemyList.Count < maxEnemiesOnScreen)
+                if (EnemyList.Count < totalEnemies)
                 {
                     GameObject newEnemy = Instantiate(enemies[1]) as GameObject;
                     newEnemy.transform.position = spawnPoint.transform.position;
                     EnemyList.Add(newEnemy.GetComponent<Enemy>());
-
                 }
             }
             yield return new WaitForSeconds(spawnDelay);
@@ -91,7 +129,7 @@ public class GameManager : Singleton<GameManager>
 
     public void DestroyAllEnemies()
     {
-        foreach(Enemy enemy in EnemyList)
+        foreach (Enemy enemy in EnemyList)
         {
             Destroy(enemy.gameObject);
         }
@@ -103,9 +141,39 @@ public class GameManager : Singleton<GameManager>
         TotalMoney += amount;
     }
 
-    public void SubMoney(int amount) 
-    { 
-        TotalMoney -= amount; 
+    public void SubMoney(int amount)
+    {
+        TotalMoney -= amount;
+    }
+
+    public void IsWaveOver()
+    {
+        escapedNumLbl.text = "Escaped " + TotalEscaped + "/10";
+        if ((RoundsEscaped + TotalKilled) == totalEnemies)
+        {
+            setCurrentGameState();
+            showMenu();
+        }
+    }
+
+    public void setCurrentGameState()
+    {
+        if (TotalEscaped >= 10)
+        {
+            currentState = gameState.gameOver;
+        }
+        else if (waveNum == 0 && (TotalKilled + RoundsEscaped) == 0)
+        {
+            currentState = gameState.play;
+        }
+        else if (waveNum >= totalWaves)
+        {
+            currentState = gameState.win;
+        }
+        else
+        {
+            currentState = gameState.next;
+        }
     }
 
     public void showMenu()
@@ -128,12 +196,27 @@ public class GameManager : Singleton<GameManager>
         nextWaveBtn.gameObject.SetActive(true);
     }
 
-    public void handleEscape()
+    public void playBtnPressed()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        switch (currentState)
         {
-            TowerManager.Instance.DisableDragSprite();
-            TowerManager.Instance.TowerbtnPressed = null;
+            case gameState.next:
+                waveNum += 1;
+                totalEnemies += waveNum;
+                break;
+            default:
+                totalEnemies = 3;
+                TotalEscaped = 0;
+                TotalMoney = 10;
+                moneyLbl.text = TotalMoney.ToString();
+                escapedNumLbl.text = "Escaped " + TotalEscaped + "/10";
+                break;
         }
+        DestroyAllEnemies();
+        TotalKilled = 0;
+        RoundsEscaped = 0;
+        waveNumLbl.text = "Wave " + (waveNum + 1);
+        StartCoroutine(spawn());
+        nextWaveBtn.gameObject.SetActive(false);
     }
 }
