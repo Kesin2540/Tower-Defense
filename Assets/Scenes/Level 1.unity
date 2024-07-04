@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9815375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 390078228}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: playBtnPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &9815375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4904,6 +4916,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2277988439777932587, guid: 76cc971638aec344faccf54d99ddc096, type: 3}
   m_PrefabInstance: {fileID: 1202734704}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &390078228 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7220542892632489279, guid: 76cc971638aec344faccf54d99ddc096, type: 3}
+  m_PrefabInstance: {fileID: 1202734704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db9b5ca361e4c64a9dd76fe6f101032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &397504658
 GameObject:
   m_ObjectHideFlags: 0
@@ -6933,7 +6956,7 @@ GameObject:
   - component: {fileID: 518930179}
   m_Layer: 5
   m_Name: moneyLbl
-  m_TagString: Untagged
+  m_TagString: moneylbl
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28570,6 +28593,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1694177838178020198, guid: 1e693e5fccf7fbb4c8d8f9f172ddb9ef, type: 3}
+      propertyPath: m_text
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4481535208485497255, guid: 1e693e5fccf7fbb4c8d8f9f172ddb9ef, type: 3}
       propertyPath: m_Name
       value: castleTowerbtn
@@ -28705,6 +28732,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1312574946}
     m_Modifications:
+    - target: {fileID: 145463319438241804, guid: 34a7ae013d0e7d54bb14c084c4e71dc0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5264246712578722936, guid: 34a7ae013d0e7d54bb14c084c4e71dc0, type: 3}
       propertyPath: m_Name
       value: rockTowerbtn
@@ -28793,6 +28824,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 231466786}
+    - target: {fileID: 9032768919732944782, guid: 34a7ae013d0e7d54bb14c084c4e71dc0, type: 3}
+      propertyPath: m_text
+      value: '5
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28983,6 +29020,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 231466786}
+    - target: {fileID: 7493973314861274850, guid: d3ce0aa7c7324854bbbe1a68426693ef, type: 3}
+      propertyPath: m_text
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
