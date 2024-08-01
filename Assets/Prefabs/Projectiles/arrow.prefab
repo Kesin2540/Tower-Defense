@@ -143,5 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0127830a4185448881dc52bda6e59e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackStrength: 20
+  attackStrength: 30
   projectileType: 1

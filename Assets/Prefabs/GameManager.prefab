@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6657021950624860336}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.0168928, y: 0.23594363, z: -0.043378495}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.0168928, y: 0.23594362, z: -0.04337883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db9b5ca361e4c64a9dd76fe6f101032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalWaves: 10
+  totalWaves: 4
   waveNumLbl: {fileID: 0}
   moneyLbl: {fileID: 0}
   escapedNumLbl: {fileID: 0}
@@ -53,9 +53,8 @@ MonoBehaviour:
   - {fileID: 7437888158450429332, guid: 4b0f8ef310de1e24892635a9e1fb65be, type: 3}
   - {fileID: 3384206411247450471, guid: 86a6fabba87001a46a707cd61298288a, type: 3}
   - {fileID: 2076279344465895662, guid: 11ed6786f5b3e0047ae8bc9ecd555fb9, type: 3}
-  maxEnemiesOnScreen: 8
-  totalEnemies: 8
+  totalEnemies: 3
   enemiesPerSpawn: 1
   nextWaveBtnLbl: {fileID: 0}
-  nextWaveBtn: {fileID: 0}
+  nextWaveBtn: {fileID: 6740480363569092019, guid: ea47a2336f35f554a9aec4c8fbc175f3, type: 3}
   EnemyList: []

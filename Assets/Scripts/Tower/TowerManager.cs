@@ -46,16 +46,23 @@ public class TowerManager : Singleton<TowerManager>
         {
             GameObject newTower = Instantiate(TowerbtnPressed.TowerObject);
             newTower.transform.position = hit.transform.position;
+            buyTower(TowerbtnPressed.TowerAmt);
             DisableDragSprite();
         }
-        GameManager.Instance.SubMoney(TowerbtnPressed.TowerAmt);
+    }
+
+    public void buyTower(int price)
+    {
+        GameManager.Instance.SubMoney(price);
     }
 
     public void selectedTower(Towerbtn towerSelected)
     {
-        TowerbtnPressed = towerSelected;
-        Debug.Log("Pressed " + TowerbtnPressed.gameObject);
-        enableDragSprite(towerSelected.DragSprite);
+        if(towerSelected.TowerAmt <= GameManager.Instance.TotalMoney)
+        {
+            TowerbtnPressed = towerSelected;
+            enableDragSprite(TowerbtnPressed.DragSprite);
+        }
     }
 
     public void followMouse()

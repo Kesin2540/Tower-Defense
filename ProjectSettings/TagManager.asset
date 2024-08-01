@@ -12,6 +12,7 @@ TagManager:
   - Projectiles
   - buildSiteFull
   - moneylbl
+  - Button
   layers:
   - Default
   - TransparentFX

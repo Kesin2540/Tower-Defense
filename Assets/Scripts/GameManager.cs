@@ -35,46 +35,25 @@ public class GameManager : Singleton<GameManager>
 
     public int TotalEscaped
     {
-        get
-        {
-            return escapedNum;
-        }
-        set
-        {
-            escapedNum = value;
-        }
+        get { return escapedNum; }
+        set { escapedNum = value; }
     }
 
     public int RoundsEscaped
     {
-        get
-        {
-            return roundsEscaped;
-        }
-        set
-        {
-            roundsEscaped = value;
-        }
+        get { return roundsEscaped; }
+        set { roundsEscaped = value; }
     }
 
     public int TotalKilled
     {
-        get
-        {
-            return totalKilled;
-        }
-        set
-        {
-            totalKilled = value;
-        }
+        get { return totalKilled; }
+        set { totalKilled = value; }
     }
 
     public int TotalMoney
     {
-        get
-        {
-            return money;
-        }
+        get { return money; }
         set
         {
             money = value;
@@ -86,14 +65,26 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        // Ensure moneyLbl is assigned if not done in the editor
-        if (moneyLbl == null)
+        // Ensure moneyLbl and escapedNumLbl are assigned
+        moneyLbl = GameObject.FindGameObjectWithTag("moneylbl")?.GetComponent<TextMeshProUGUI>();
+        escapedNumLbl = GameObject.Find("Escaped_lbl")?.GetComponent<TextMeshProUGUI>();
+        waveNumLbl = GameObject.Find("WaveNum_lbl")?.GetComponent<TextMeshProUGUI>(); // Make sure to assign this too
+        nextWaveBtnLbl = nextWaveBtn.GetComponentInChildren<TextMeshProUGUI>();
+
+        if (moneyLbl == null) Debug.LogError("moneyLbl is not assigned properly.");
+        if (escapedNumLbl == null) Debug.LogError("escapedNumLbl is not assigned properly.");
+        if (waveNumLbl == null) Debug.LogError("waveNumLbl is not assigned properly.");
+        if (nextWaveBtnLbl == null) Debug.LogError("nextWaveBtnLbl is not assigned properly.");
+
+        if (nextWaveBtn != null)
         {
-            moneyLbl = GameObject.FindGameObjectWithTag("moneylbl").GetComponent<TextMeshProUGUI>();
-            escapedNumLbl = GameObject.Find("Escaped_lbl").GetComponent<TextMeshProUGUI>();
+            nextWaveBtn.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("nextWaveBtn is not assigned!");
         }
 
-        nextWaveBtn.gameObject.SetActive(false);
         showMenu();
     }
 
@@ -149,6 +140,7 @@ public class GameManager : Singleton<GameManager>
     public void IsWaveOver()
     {
         escapedNumLbl.text = "Escaped " + TotalEscaped + "/10";
+        Debug.Log("IsWaveOver called. TotalEscaped: " + TotalEscaped + " RoundsEscaped: " + RoundsEscaped + " TotalKilled: " + TotalKilled);
         if ((RoundsEscaped + TotalKilled) == totalEnemies)
         {
             setCurrentGameState();
@@ -158,6 +150,7 @@ public class GameManager : Singleton<GameManager>
 
     public void setCurrentGameState()
     {
+        Debug.Log("Setting current game state...");
         if (TotalEscaped >= 10)
         {
             currentState = gameState.gameOver;
@@ -174,10 +167,21 @@ public class GameManager : Singleton<GameManager>
         {
             currentState = gameState.next;
         }
+        Debug.Log("Current State: " + currentState);
     }
 
     public void showMenu()
     {
+        Debug.Log("Show menu called. Current State: " + currentState);
+
+        // Check if nextWaveBtnLbl is assigned
+        if (nextWaveBtnLbl == null)
+        {
+            Debug.LogError("nextWaveBtnLbl is not assigned!");
+            return;
+        }
+
+        // Set the button label based on the current state
         switch (currentState)
         {
             case gameState.gameOver:
@@ -190,14 +194,26 @@ public class GameManager : Singleton<GameManager>
                 nextWaveBtnLbl.text = "Play";
                 break;
             case gameState.win:
-                nextWaveBtnLbl.text = "Play";
+                nextWaveBtnLbl.text = "You Win!";
                 break;
         }
+
+        // Check if nextWaveBtn is assigned
+        if (nextWaveBtn == null)
+        {
+            Debug.LogError("nextWaveBtn is not assigned!");
+            return;
+        }
+
+        // Activate the button
         nextWaveBtn.gameObject.SetActive(true);
+        Debug.Log("nextWaveBtn is active: " + nextWaveBtn.gameObject.activeSelf);
     }
+
 
     public void playBtnPressed()
     {
+        Debug.Log("Play button pressed. Current State: " + currentState);
         switch (currentState)
         {
             case gameState.next:
@@ -217,6 +233,13 @@ public class GameManager : Singleton<GameManager>
         RoundsEscaped = 0;
         waveNumLbl.text = "Wave " + (waveNum + 1);
         StartCoroutine(spawn());
-        nextWaveBtn.gameObject.SetActive(false);
+        if (nextWaveBtn != null)
+        {
+            nextWaveBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("nextWaveBtn is null when trying to set inactive");
+        }
     }
 }
